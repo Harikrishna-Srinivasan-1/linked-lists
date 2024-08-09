@@ -35,3 +35,17 @@ TypeError::TypeError(std::string what_arg)
 {
     this->what_arg = what_arg;
 }
+
+size_t len(const linkedlist &obj)
+{
+    size_t size = 0;
+    node *ptr = this->head;
+
+    while (ptr != NULL)
+    {
+        size++;
+        ptr = ptr->next;
+    }
+
+    return size;
+}
