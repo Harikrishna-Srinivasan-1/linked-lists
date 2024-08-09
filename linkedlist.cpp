@@ -1,15 +1,15 @@
 #include "linkedlist.h"
 
 
-linkedlist::linkedlist():
+linkedlist<A>::linkedlist():
 head(NULL), length(0) {}
 
-size_t linkedlist::size() const
+size_t linkedlist<A>::size() const
 {
     return length;
 }
 
-bool linkedlist::isempty() const
+bool linkedlist<A>::isempty() const
 {
     return (head == NULL);
 }
