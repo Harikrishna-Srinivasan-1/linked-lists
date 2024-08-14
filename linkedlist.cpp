@@ -1,17 +1,20 @@
 #include "linkedlist.h"
 
+template <typename A>
 
 linkedlist<A>::linkedlist():
-head(NULL), length(0) {}
+this->head(nullptr), this->length(0) {}
 
+template <typename A>
 size_t linkedlist<A>::size() const
 {
-    return length;
+    return this->length;
 }
 
+template <typename A>
 bool linkedlist<A>::isempty() const
 {
-    return (head == NULL);
+    return (this->head == nullptr);
 }
 
 Exception::Exception() {}
@@ -36,12 +39,13 @@ TypeError::TypeError(std::string what_arg)
     this->what_arg = what_arg;
 }
 
-size_t len(const linkedlist &obj)
+template <typename A>
+size_t len(const linkedlist<A> &obj)
 {
     size_t size = 0;
-    node *ptr = this->head;
+    node *ptr = obj.head;
 
-    while (ptr != NULL)
+    while (ptr != nullptr)
     {
         size++;
         ptr = ptr->next;
