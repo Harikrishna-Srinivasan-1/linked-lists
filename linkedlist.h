@@ -4,7 +4,7 @@
 
 const size_t NOT_FOUND = -1;
 
-template <typename A>;
+template <typename A>
 class linkedlist
 {
     protected:
@@ -37,12 +37,17 @@ class linkedlist
         virtual bool isempty() const;
 
         virtual A &operator[](const size_t &index) = 0;
-        virtual linkedlist<A> operator+(linkedlist<A> &obj) = 0;
+        virtual linkedlist<A> &operator=(const linkedlist<A> &obj) = 0;
+        virtual linkedlist<A> &operator+(const linkedlist<A> &obj) = 0;
 
-        virtual void freed() = 0;
+        virtual void clear() = 0;
+        
+        template <typename B>
+        friend size_t len(const linkedlist<B> &obj);
 };
 
-size_t len(const linkedlist &obj);
+template <typename A>
+size_t len(const linkedlist<A> &obj);
 
 class Exception
 {
@@ -50,7 +55,7 @@ class Exception
         std::string what_arg;
     public:
         Exception();
-        std::string what_err() const;
+        virtual std::string what_err() const;
 };
 
 class IndexError: public Exception
