@@ -109,7 +109,7 @@ void singly_linked_list<A>::insert_inorder(const A &value)
 }
 
 template <typename A>
-void singly_linked_list::extend(const linkedlist<A> &obj)
+void singly_linked_list<A>::extend(const linkedlist<A> &obj)
 {
     if (this->isempty())
     {
