@@ -1,6 +1,8 @@
-#include <iostream>
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
+
+#include <exception>
+#include <iostream>
 
 const size_t NOT_FOUND = -1;
 
@@ -44,36 +46,42 @@ class linkedlist
         
         template <typename B>
         friend size_t len(const linkedlist<B> &obj);
+
+        virtual ~linkedlist();
 };
 
 template <typename A>
 size_t len(const linkedlist<A> &obj);
 
-class Exception
+class Exception: virtual public std::exception 
 {
     protected:
         std::string what_arg;
     public:
         Exception();
         virtual std::string what_err() const;
+        virtual ~Exception();
 };
 
 class IndexError: public Exception
 {
     public:
         IndexError(std::string what_arg);
+        ~IndexError();
 };
 
 class ValueError: public Exception
 {
     public:
         ValueError(std::string what_arg);
+        ~ValueError();
 };
 
 class TypeError: public Exception
 {
     public:
        TypeError(std::string what_arg);
+       ~TypeError();
 };
 
 #endif
