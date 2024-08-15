@@ -16,19 +16,19 @@ class linkedlist
             struct node *next;
         } node;
 
-        node *head;
-        int length;
+        node *head, *tail;
+        size_t length;
     public:
         linkedlist();
 
         virtual void prepend(const A &value) = 0;
         virtual void append(const A &value) = 0;
-        virtual void insert(const A &value, const size_t &index) = 0;
+        virtual void insert(const A &value, const int64_t &index) = 0;
         virtual void insert_inorder(const A &value) = 0;
         virtual void extend(const linkedlist<A> &obj) = 0;
 
         virtual void remove(const A &value) = 0;
-        virtual A pop(const size_t &index) = 0;
+        virtual A pop(const int64_t &index) = 0;
         virtual A pop() = 0;
 
         virtual size_t size() const;
@@ -38,7 +38,7 @@ class linkedlist
 
         virtual bool isempty() const;
 
-        virtual A &operator[](const size_t &index) = 0;
+        virtual A &operator[](const int64_t &index) = 0;
         virtual linkedlist<A> &operator=(const linkedlist<A> &obj) = 0;
         virtual linkedlist<A> &operator+(const linkedlist<A> &obj) = 0;
 
