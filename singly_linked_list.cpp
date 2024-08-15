@@ -1,5 +1,5 @@
 #include "singly_linked_list.h"
-
+#include "linkedlist.cpp"
 
 template <typename A>
 singly_linked_list<A>::singly_linked_list():
@@ -12,6 +12,8 @@ void singly_linked_list<A>::prepend(const A &value)
     new_node->value = value;
     new_node->next = this->head;
 
+    if (this->isempty())
+        this->tail = new_node;
     this->head = new_node;
     
     this->length++;
@@ -24,6 +26,7 @@ void singly_linked_list<A>::append(const A &value)
     new_node->value = value;
     new_node->next = nullptr;
 
+    this->tail = new_node;
     if (this->isempty())
     {
         this->head = new_node;
@@ -44,30 +47,27 @@ void singly_linked_list<A>::append(const A &value)
 }
 
 template <typename A>
-void singly_linked_list<A>::insert(const A &value, const size_t &index)
+void singly_linked_list<A>::insert(const A &value, const int64_t &index)
 {
-    if (this->isempty() || index == 0 || (int)index <= -(int)(this->size()))
+    if (this->isempty() || index == 0L || index <= -(int64_t)(this->size()))
     {
         this->prepend(value);
         return;
     }
 
-    if (index == -1 || index >= (this->size()) - 1)
+    if (index == -1L || index >= (int64_t)(this->size()) - 1L)
     {
         this->append(value);
         return;
     }
 
-    size_t curr_index = 0;
-    if (index < 0)
-    {
-        curr_index = (this->size()) + index;
-    }
+    int64_t curr_index = 0L;
+    if (index < 0L)
+        curr_index = (int64_t)(this->size()) + index;
 
     typename linkedlist<A>::node *new_node = new typename linkedlist<A>::node, *ptr = this->head;
     new_node->value = value;
-
-    while (curr_index != index - 1)
+    while (curr_index != index - 1L)
     {
         ptr = ptr->next;
         curr_index++;
@@ -82,25 +82,14 @@ void singly_linked_list<A>::insert(const A &value, const size_t &index)
 template <typename A>
 void singly_linked_list<A>::insert_inorder(const A &value)
 {
-    if (this->isempty())
+    if (this->isempty() || this->head->value >= value)
     {
         this->prepend(value);
         return;
     }
 
-    typename linkedlist<A>::node *new_node = new typename linkedlist<A>::node;
+    typename linkedlist<A>::node *new_node = new typename linkedlist<A>::node, *ptr = this->head;
     new_node->value = value;
-
-    if (this->head->value >= value)
-    {
-        new_node->next = this->head;
-        this->head = new_node;
-        
-        this->length++;
-        return;
-    }
-
-    typename linkedlist<A>::node *ptr = this->head;
     while (ptr->next != nullptr)
     {
         if (ptr->next->value >= value)
@@ -108,29 +97,36 @@ void singly_linked_list<A>::insert_inorder(const A &value)
         ptr = ptr->next;
     }
 
+    if (ptr->next == nullptr)
+        this->tail = new_node;
+
     new_node->next = ptr->next;
     ptr->next = new_node;
     
     this->length++;
 }
 
-// TODO: Dummy/not fully working extend definition - extend copies the `obj` and extends `*this`
+// TODO: g++ says `head` is protected within this context
 template <typename A>
 void singly_linked_list<A>::extend(const linkedlist<A> &obj)
 {
-    if (this->isempty())
-    {
-        // To be copied
-        return;
-    }
     if (obj.isempty())
-    {
-        // To be copied
         return;
+    
+    // ptrFrom = obj.head;
+    typename linkedlist<A>::node *ptrFrom = nullptr, *ptrTo = this->tail, *new_node = nullptr;
+    while (ptrFrom != nullptr)
+    {
+        new_node = new typename linkedlist<A>::node;
+        new_node->value = ptrFrom->value;
+        ptrTo->next = new_node;
+
+        ptrTo = ptrTo->next;
+        ptrFrom = ptrFrom->next;
     }
 
-    // General Case Extend
-
+    ptrTo->next = nullptr;
+    this->length = this->length + obj.size();
 }
 
 template <typename A>
@@ -159,6 +155,9 @@ void singly_linked_list<A>::remove(const A &value)
     if (ptr->next == nullptr)
         throw ValueError("ValueError: Removing `x`, non-element in the List in line " + std::to_string(__LINE__) + " in file: " + __FILE__ + "\n");
 
+    if (ptr->next == this->tail)
+        this->tail = ptr;
+
     typename linkedlist<A>::node *temp = ptr->next;
     ptr->next = temp->next;
     delete temp;
@@ -167,34 +166,35 @@ void singly_linked_list<A>::remove(const A &value)
 }
 
 template <typename A>
-A singly_linked_list<A>::pop(const size_t &index)
+A singly_linked_list<A>::pop(const int64_t &index)
 {
     if (this->isempty())
         throw ValueError("ValueError: Pop from Empty List in line " + std::to_string(__LINE__) + " in file: " + __FILE__ + "\n");
 
-    if ((int)index < -(int)(this->size()) || index >= (this->size()))
+    if (index < -(int64_t)(this->size()) || index >= (int64_t)(this->size()))
         throw IndexError("IndexError: Pop index out of range in line " + std::to_string(__LINE__) + " in file: " + __FILE__ + "\n");
 
-    
     typename linkedlist<A>::node *ptr = this->head;
-    if (index == 0 || (int)index == -(int)(this->size()))
+    if (index == 0L || index == -(int64_t)(this->size()))
     {
         A value = ptr->value;
         this->head = ptr->next;
         delete ptr;
+        if (this->isempty())
+            this->tail = nullptr;
 
         this->length--;
         return value;
     }
 
-    size_t curr_index = 0;
-    if (index < 0)
-    {
-        curr_index = (this->size()) + index;
-    }
+    int64_t curr_index = 0L;
+    if (index < 0L)
+        curr_index = -(int64_t)(this->size());
 
-    while (curr_index != index - 1)
+    while (curr_index != index - 1L)
     {
+        if (ptr->next == this->tail)
+            this->tail = ptr;
         ptr = ptr->next;
         curr_index++;
     }
@@ -212,7 +212,7 @@ A singly_linked_list<A>::pop(const size_t &index)
 template <typename A>
 A singly_linked_list<A>::pop()
 {
-    return this->pop(0);
+    return this->pop(-1L);
 }
 
 template <typename A>
@@ -253,22 +253,20 @@ size_t singly_linked_list<A>::count(const A &value) const
 }
 
 template <typename A>
-A &singly_linked_list<A>::operator[](const size_t &index)
+A &singly_linked_list<A>::operator[](const int64_t &index)
 {
     if (this->isempty())
         throw IndexError("IndexError: Indexing an Empty List in line " + std::to_string(__LINE__) + " in file: " + __FILE__ + "\n");
 
-    if ((int)index < -(int)(this->size()) || index >= (this->size()))
+    if (index < -(int64_t)(this->size()) || index >= (int64_t)(this->size()))
         throw IndexError("IndexError: List index out of range in line " + std::to_string(__LINE__) + " in file: " + __FILE__ + "\n");
 
-    if (index == 0 || (int)index == -(int)(this->size()))
+    if (index == 0L || index == -(int64_t)(this->size()))
         return this->head->value;
 
-    size_t curr_index = 0;
-    if (index < 0)
-    {
-        curr_index = (this->size()) + index;
-    }
+    int64_t curr_index = 0L;
+    if (index < 0L)
+        curr_index = (int64_t)(this->size()) + index;
 
     typename linkedlist<A>::node *ptr = this->head;
     while (curr_index != index)
@@ -280,19 +278,19 @@ A &singly_linked_list<A>::operator[](const size_t &index)
     return ptr->value;
 }
 
-// TODO: Dummy/not fully working operator=, to copy rvalue to lvalue
+// TODO: g++ says `head` is protected within this context
 template <typename A>
 linkedlist<A> &singly_linked_list<A>::operator=(const linkedlist<A> &obj)
 {
     this->clear();
     this->head = nullptr;
 
-    typename linkedlist<A>::node *new_node = new typename linkedlist<A>::node, *ptr = nullptr;
-
-    // To be copied, not point to
+    // ptr = obj.head;
+    typename linkedlist<A>::node *new_node = nullptr, *ptr = nullptr;
     while (ptr != nullptr)
     {
-        new_node->value = ptr->value;
+        this->append(ptr->value);
+        ptr = ptr->next;
     }
 
     return *this;
@@ -303,23 +301,8 @@ template <typename A>
 linkedlist<A> &singly_linked_list<A>::operator+(const linkedlist<A> &obj)
 {
     // Do not return the address of this or obj, return copy of the values
-    singly_linked_list<A> list;
-
-    typename linkedlist<A>::node *new_node = new typename linkedlist<A>::node;
-    new_node->value = this->head->value;
-    list.head = new_node;
-
-    typename linkedlist<A>::node *ptr = this->head->next;
-    while (ptr != nullptr)
-    {
-        new_node = new typename linkedlist<A>::node;
-
-        new_node->next = ptr;
-        new_node = ptr;
-        new_node->value = ptr->value;
-    }
-
-    new_node->next = nullptr;
+    singly_linked_list<A> list = *this;
+    list.extend(obj);
 
     return *this;
 }
@@ -336,7 +319,7 @@ void singly_linked_list<A>::show()
     }
 
     typename linkedlist<A>::node *ptr = this->head;
-    while (ptr->next != nullptr)
+    while (ptr != this->tail)
     {
         std::cout << ptr->value << ", ";
 
@@ -350,15 +333,16 @@ template <typename A>
 void singly_linked_list<A>::clear() 
 {
     typename linkedlist<A>::node *temp = nullptr;
-    
     while (this->isempty())
     {
         temp = this->head;
         this->head = this->head->next;
 
         delete temp;
-        this->length--;
     }
+
+    this->tail = nullptr;
+    this->length = 0;
 }
 
 template <typename A>
