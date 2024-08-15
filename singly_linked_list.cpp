@@ -193,12 +193,13 @@ A singly_linked_list<A>::pop(const int64_t &index)
 
     while (curr_index != index - 1L)
     {
-        if (ptr->next == this->tail)
-            this->tail = ptr;
         ptr = ptr->next;
         curr_index++;
     }
     
+    if (ptr->next->next == nullptr)
+        this->tail = ptr;
+
     typename linkedlist<A>::node *temp = ptr->next;
     ptr->next = temp->next;
 
@@ -333,7 +334,7 @@ template <typename A>
 void singly_linked_list<A>::clear() 
 {
     typename linkedlist<A>::node *temp = nullptr;
-    while (this->isempty())
+    while (!this->isempty())
     {
         temp = this->head;
         this->head = this->head->next;
