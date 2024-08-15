@@ -11,18 +11,18 @@ class singly_linked_list: public linkedlist<A>
 
         void prepend(const A &value);
         void append(const A &value);
-        void insert(const A &value, const size_t &index);
+        void insert(const A &value, const int64_t &index);
         void insert_inorder(const A &value);
         void extend(const linkedlist<A> &obj);
 
         void remove(const A &value);
-        A pop(const size_t &index);
+        A pop(const int64_t &index);
         A pop();
 
         size_t find(const A &value) const;
         size_t count(const A &value) const;
 
-        A &operator[](const size_t &index);
+        A &operator[](const int64_t &index);
         linkedlist<A> &operator+(const linkedlist<A> &obj);
         linkedlist<A> &operator=(const linkedlist<A> &obj);
 
