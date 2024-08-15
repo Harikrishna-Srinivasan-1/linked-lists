@@ -1,7 +1,7 @@
-#include "linkedlist.h"
 #ifndef SINGLY_LINKED_LIST_H
 #define SINGLY_LINKED_LIST_H
 
+#include "linkedlist.h"
 
 template <typename A>
 class singly_linked_list: public linkedlist<A>
@@ -19,8 +19,6 @@ class singly_linked_list: public linkedlist<A>
         A pop(const size_t &index);
         A pop();
 
-        size_t size() const;
-
         size_t find(const A &value) const;
         size_t count(const A &value) const;
 
@@ -31,6 +29,8 @@ class singly_linked_list: public linkedlist<A>
         void show();
 
         void clear();
+
+        ~singly_linked_list();
 };
 
 #endif
