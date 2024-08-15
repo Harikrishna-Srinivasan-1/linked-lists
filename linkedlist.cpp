@@ -3,7 +3,7 @@
 template <typename A>
 
 linkedlist<A>::linkedlist():
-head(nullptr), length(0) {}
+head(nullptr), length(0), tail(nullptr) {}
 
 template <typename A>
 size_t linkedlist<A>::size() const
