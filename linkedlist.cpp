@@ -1,87 +1,70 @@
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
-
-#include <exception>
-#include <iostream>
-
-const size_t NOT_FOUND = -1;
+#include "linkedlist.h"
 
 template <typename A>
-class linkedlist
-{
-    protected:
-        typedef struct node
-        {
-            A value;
-            struct node *next;
-        } node;
 
-        node *head;
-        int length;
-    public:
-        linkedlist();
-
-        virtual void prepend(const A &value) = 0;
-        virtual void append(const A &value) = 0;
-        virtual void insert(const A &value, const size_t &index) = 0;
-        virtual void insert_inorder(const A &value) = 0;
-        virtual void extend(const linkedlist<A> &obj) = 0;
-
-        virtual void remove(const A &value) = 0;
-        virtual A pop(const size_t &index) = 0;
-        virtual A pop() = 0;
-
-        virtual size_t size() const;
-
-        virtual size_t find(const A &value) const = 0;
-        virtual size_t count(const A &value) const = 0;
-
-        virtual bool isempty() const;
-
-        virtual A &operator[](const size_t &index) = 0;
-        virtual linkedlist<A> &operator=(const linkedlist<A> &obj) = 0;
-        virtual linkedlist<A> &operator+(const linkedlist<A> &obj) = 0;
-
-        virtual void clear() = 0;
-        
-        template <typename B>
-        friend size_t len(const linkedlist<B> &obj);
-
-        virtual ~linkedlist();
-};
+linkedlist<A>::linkedlist():
+head(nullptr), length(0) {}
 
 template <typename A>
-size_t len(const linkedlist<A> &obj);
-
-class Exception: virtual public std::exception 
+size_t linkedlist<A>::size() const
 {
-    protected:
-        std::string what_arg;
-    public:
-        Exception();
-        virtual std::string what_err() const;
-        virtual ~Exception();
-};
+    return this->length;
+}
 
-class IndexError: public Exception
+template <typename A>
+bool linkedlist<A>::isempty() const
 {
-    public:
-        IndexError(std::string what_arg);
-        ~IndexError();
-};
+    return (this->head == nullptr);
+}
 
-class ValueError: public Exception
+template <typename A>
+linkedlist<A>::~linkedlist() {}
+
+
+// TODO: Improve Exception throwing mechanism
+Exception::Exception() {}
+
+Exception::~Exception() {}
+
+std::string Exception::what_err() const
 {
-    public:
-        ValueError(std::string what_arg);
-        ~ValueError();
-};
+    return this->what_arg;
+}
 
-class TypeError: public Exception
+IndexError::IndexError(std::string what_arg)
 {
-    public:
-       TypeError(std::string what_arg);
-       ~TypeError();
-};
+    this->what_arg = what_arg;
+}
 
-#endif
+IndexError::~IndexError() {}
+
+ValueError::ValueError(std::string what_arg)
+{
+    this->what_arg = what_arg;
+}
+
+ValueError::~ValueError() {}
+
+TypeError::TypeError(std::string what_arg)
+{
+    this->what_arg = what_arg;
+}
+
+TypeError::~TypeError() {}
+
+// TODO: Implement len(); protected variable cannot be accessed, but declared as `friend`
+template <typename A>
+size_t len(const linkedlist<A> &obj) {return -1;}
+/*
+{
+    size_t size = 0;
+    typename linkedlist<A>::node *ptr = obj.head;
+
+    while (ptr != nullptr)
+    {
+        size++;
+        ptr = ptr->next;
+    }
+
+    return size;
+}*/
