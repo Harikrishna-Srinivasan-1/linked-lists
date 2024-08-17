@@ -1,5 +1,5 @@
 #include "singly_linked_list.h"
-#include "linkedlist.cpp"
+
 
 template <typename A>
 singly_linked_list<A>::singly_linked_list():
@@ -307,6 +307,97 @@ linkedlist<A> &singly_linked_list<A>::operator+(const linkedlist<A> &obj)
 
     return *this;
 }
+
+// template <typename A>
+// linkedlist<A> &singly_linked_list<A>::operator*(const linkedlist<A> &obj) 
+// {
+//     return *this;
+// }
+
+// template <typename A>
+// bool singly_linked_list<A>::operator>(const linkedlist<A> &obj) const 
+// {
+//     typename linkedlist<A>::node *ptr1 = this->head, *ptr2 = obj.head;
+//     while (ptr1 != nullptr && ptr2 != nullptr)
+//     {
+//         if (ptr1->value > ptr2->value)
+//             return true;
+//         ptr1 = ptr1->next;
+//         ptr2 = ptr2->next;
+//     }
+
+//     if (ptr1 == nullptr)
+//         return false;
+//     return true;
+// }
+
+// template <typename A>
+// bool singly_linked_list<A>::operator<(const linkedlist<A> &obj) const 
+// {
+//     typename linkedlist<A>::node *ptr1 = this->head, *ptr2 = obj.head;
+//     while (ptr1 != nullptr && ptr2 != nullptr)
+//     {
+//         if (ptr1->value < ptr2->value)
+//             return true;
+//         ptr1 = ptr1->next;
+//         ptr2 = ptr2->next;
+//     }
+
+//     if (ptr1 == nullptr)
+//         return true;
+//     return false;
+// }
+
+// template <typename A>
+// bool singly_linked_list<A>::operator>=(const linkedlist<A> &obj) const 
+// {
+//     typename linkedlist<A>::node *ptr1 = this->head, *ptr2 = obj.head;
+//     while (ptr1 != nullptr && ptr2 != nullptr)
+//     {
+//         if (ptr1->value >= ptr2->value)
+//             return true;
+//         ptr1 = ptr1->next;
+//         ptr2 = ptr2->next;
+//     }
+
+//     if (ptr1 == nullptr)
+//         return false;
+//     return true;
+// }
+
+// template <typename A>
+// bool singly_linked_list<A>::operator<=(const linkedlist<A> &obj) const 
+// {
+//     typename linkedlist<A>::node *ptr1 = this->head, *ptr2 = obj.head;
+//     while (ptr1 != nullptr && ptr2 != nullptr)
+//     {
+//         if (ptr1->value <= ptr2->value)
+//             return true;
+//         ptr1 = ptr1->next;
+//         ptr2 = ptr2->next;
+//     }
+
+//     if (ptr1 == nullptr)
+//         return true;
+//     return false;
+// }
+
+// template <typename A>
+// bool singly_linked_list<A>::operator==(const linkedlist<A> &obj) const 
+// {
+//     typename linkedlist<A>::node *ptr1 = this->head, *ptr2 = obj.this->head;
+//     while (ptr1 != nullptr && ptr2 != nullptr)
+//     {
+//         if (ptr1->value != ptr2->value)
+//             return false;
+//         ptr1 = ptr1->next;
+//         ptr2 = ptr2->next;
+//     }
+
+//     if (ptr1 == ptr2)
+//         return true;
+//     return false;
+// }
 
 template <typename A>
 void singly_linked_list<A>::show()
