@@ -1,7 +1,8 @@
 #ifndef SINGLY_LINKED_LIST_H
 #define SINGLY_LINKED_LIST_H
 
-#include "linkedlist.h"
+#include "linkedlist.cpp"
+#include "exception.cpp"
 
 template <typename A>
 class singly_linked_list: public linkedlist<A>
@@ -25,6 +26,12 @@ class singly_linked_list: public linkedlist<A>
         A &operator[](const int64_t &index);
         linkedlist<A> &operator+(const linkedlist<A> &obj);
         linkedlist<A> &operator=(const linkedlist<A> &obj);
+        // linkedlist<A> &operator*(const linkedlist<A> &obj);
+        // bool operator>(const linkedlist<A> &obj) const;
+        // bool operator<(const linkedlist<A> &obj) const;
+        // bool operator>=(const linkedlist<A> &obj) const;
+        // bool operator<=(const linkedlist<A> &obj) const;
+        // bool operator==(const linkedlist<A> &obj) const;
 
         void show();
 
