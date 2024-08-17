@@ -1,7 +1,7 @@
 #include "linkedlist.h"
 
-template <typename A>
 
+template <typename A>
 linkedlist<A>::linkedlist():
 head(nullptr), length(0), tail(nullptr) {}
 
@@ -19,38 +19,6 @@ bool linkedlist<A>::isempty() const
 
 template <typename A>
 linkedlist<A>::~linkedlist() {}
-
-
-// TODO: Improve Exception throwing mechanism
-Exception::Exception() {}
-
-Exception::~Exception() {}
-
-std::string Exception::what_err() const
-{
-    return this->what_arg;
-}
-
-IndexError::IndexError(std::string what_arg)
-{
-    this->what_arg = what_arg;
-}
-
-IndexError::~IndexError() {}
-
-ValueError::ValueError(std::string what_arg)
-{
-    this->what_arg = what_arg;
-}
-
-ValueError::~ValueError() {}
-
-TypeError::TypeError(std::string what_arg)
-{
-    this->what_arg = what_arg;
-}
-
-TypeError::~TypeError() {}
 
 // TODO: Implement len(); protected variable cannot be accessed, but declared as `friend`
 template <typename A>
