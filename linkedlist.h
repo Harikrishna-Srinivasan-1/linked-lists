@@ -18,6 +18,7 @@ class linkedlist
 
         node *head, *tail;
         size_t length;
+        
     public:
         linkedlist();
 
@@ -37,10 +38,21 @@ class linkedlist
         virtual size_t count(const A &value) const = 0;
 
         virtual bool isempty() const;
+        
+        // virtual void reverse() = 0;
+        // virtual void sort() = 0;   
+
+        // virtual linkedlist<A> &copy() const = 0;
 
         virtual A &operator[](const int64_t &index) = 0;
         virtual linkedlist<A> &operator=(const linkedlist<A> &obj) = 0;
         virtual linkedlist<A> &operator+(const linkedlist<A> &obj) = 0;
+        // virtual linkedlist<A> &operator*(const linkedlist<A> &obj) = 0;
+        // virtual bool operator>(const linkedlist<A> &obj) const = 0;
+        // virtual bool operator<(const linkedlist<A> &obj) const = 0;
+        // virtual bool operator>=(const linkedlist<A> &obj) const = 0;
+        // virtual bool operator<=(const linkedlist<A> &obj) const = 0;
+        // virtual bool operator==(const linkedlist<A> &obj) const = 0;
 
         virtual void clear() = 0;
         
@@ -52,36 +64,5 @@ class linkedlist
 
 template <typename A>
 size_t len(const linkedlist<A> &obj);
-
-class Exception: virtual public std::exception 
-{
-    protected:
-        std::string what_arg;
-    public:
-        Exception();
-        virtual std::string what_err() const;
-        virtual ~Exception();
-};
-
-class IndexError: public Exception
-{
-    public:
-        IndexError(std::string what_arg);
-        ~IndexError();
-};
-
-class ValueError: public Exception
-{
-    public:
-        ValueError(std::string what_arg);
-        ~ValueError();
-};
-
-class TypeError: public Exception
-{
-    public:
-       TypeError(std::string what_arg);
-       ~TypeError();
-};
 
 #endif
