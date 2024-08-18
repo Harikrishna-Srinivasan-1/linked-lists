@@ -18,21 +18,21 @@ class Exception: virtual public std::exception
 class IndexError: public Exception
 {
     public:
-        IndexError(std::string what_arg);
+        explicit IndexError(std::string what_arg);
         ~IndexError();
 };
 
 class ValueError: public Exception
 {
     public:
-        ValueError(std::string what_arg);
+        explicit ValueError(std::string what_arg);
         ~ValueError();
 };
 
 class TypeError: public Exception
 {
     public:
-       TypeError(std::string what_arg);
+       explicit TypeError(std::string what_arg);
        ~TypeError();
 };
 
