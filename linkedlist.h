@@ -19,6 +19,8 @@ class linkedlist
         node *head, *tail;
         size_t length;
         
+        static node *gethead(const linkedlist<A> &obj);
+        static node *gettail(const linkedlist<A> &obj);
     public:
         linkedlist();
 
@@ -39,25 +41,27 @@ class linkedlist
 
         virtual bool isempty() const;
         
-        // virtual void reverse() = 0;
+        virtual void reverse() = 0;
         // virtual void sort() = 0;   
 
-        // virtual linkedlist<A> &copy() const = 0;
+        // virtual linkedlist<A> &copy(const linkedlist<A> &obj) = 0;
 
         virtual A &operator[](const int64_t &index) = 0;
-        virtual linkedlist<A> &operator=(const linkedlist<A> &obj) = 0;
-        virtual linkedlist<A> &operator+(const linkedlist<A> &obj) = 0;
-        // virtual linkedlist<A> &operator*(const linkedlist<A> &obj) = 0;
-        // virtual bool operator>(const linkedlist<A> &obj) const = 0;
-        // virtual bool operator<(const linkedlist<A> &obj) const = 0;
-        // virtual bool operator>=(const linkedlist<A> &obj) const = 0;
-        // virtual bool operator<=(const linkedlist<A> &obj) const = 0;
-        // virtual bool operator==(const linkedlist<A> &obj) const = 0;
+        // virtual linkedlist<A> &operator=(const linkedlist<A> &obj) = 0;
+        // virtual linkedlist<A> &operator+(const linkedlist<A> &obj) = 0;
+        // virtual linkedlist<A> &operator*(const size_t &times) = 0;
+        virtual bool operator>(const linkedlist<A> &obj) const = 0;
+        virtual bool operator<(const linkedlist<A> &obj) const = 0;
+        virtual bool operator>=(const linkedlist<A> &obj) const = 0;
+        virtual bool operator<=(const linkedlist<A> &obj) const = 0;
+        virtual bool operator==(const linkedlist<A> &obj) const = 0;
+        virtual bool operator!=(const linkedlist<A> &obj) const = 0;
 
         virtual void clear() = 0;
-        
+
         template <typename B>
         friend size_t len(const linkedlist<B> &obj);
+        
 
         virtual ~linkedlist();
 };
