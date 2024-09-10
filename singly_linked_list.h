@@ -8,6 +8,7 @@ template <typename A>
 class singly_linked_list: public linkedlist<A>
 {
     private:
+        size_t length;
     public:
         singly_linked_list();
         singly_linked_list(const singly_linked_list<A> &obj);
