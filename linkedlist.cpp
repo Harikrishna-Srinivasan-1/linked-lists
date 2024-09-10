@@ -18,12 +18,6 @@ typename linkedlist<A>::node *linkedlist<A>::gettail(const linkedlist<A> &obj)
 }
 
 template <typename A>
-size_t linkedlist<A>::size() const
-{
-    return this->length;
-}
-
-template <typename A>
 bool linkedlist<A>::isempty() const
 {
     return (this->head == nullptr);
