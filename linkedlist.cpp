@@ -3,7 +3,7 @@
 
 template <typename A>
 linkedlist<A>::linkedlist():
-head(nullptr), length(0), tail(nullptr) {}
+head(nullptr), tail(nullptr) {}
 
 template <typename A>
 typename linkedlist<A>::node *linkedlist<A>::gethead(const linkedlist<A> &obj) 
