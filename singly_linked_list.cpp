@@ -3,7 +3,7 @@
 
 template <typename A>
 singly_linked_list<A>::singly_linked_list():
-linkedlist<A>::linkedlist() {}
+linkedlist<A>::linkedlist(), this->length(0) {}
 
 template <typename A>
 singly_linked_list<A>::singly_linked_list(const singly_linked_list<A> &obj): linkedlist<A>::linkedlist()
