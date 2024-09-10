@@ -4,6 +4,7 @@
 #include <exception>
 #include <iostream>
 
+
 const size_t NOT_FOUND = -1;
 
 template <typename A>
@@ -17,7 +18,6 @@ class linkedlist
         } node;
 
         node *head, *tail;
-        size_t length;
         
         static node *gethead(const linkedlist<A> &obj);
         static node *gettail(const linkedlist<A> &obj);
