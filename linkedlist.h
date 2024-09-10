@@ -4,6 +4,8 @@
 #include <exception>
 #include <iostream>
 
+const size_t NOT_FOUND = -1;
+
 template <typename A>
 class linkedlist
 {
@@ -24,8 +26,8 @@ class linkedlist
 
         virtual void prepend(const A &value) = 0;
         virtual void append(const A &value) = 0;
-        virtual void insert(const A &value, const int64_t &index) = 0;
-        virtual void insert_inorder(const A &value) = 0;
+        virtual void insert(const int64_t &index, const A &value) = 0;
+        virtual void insert_in_order(const A &value) = 0;
         virtual void extend(const linkedlist<A> &obj) = 0;
 
         virtual void remove(const A &value) = 0;
