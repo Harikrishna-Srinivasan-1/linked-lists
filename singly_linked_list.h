@@ -7,14 +7,15 @@
 template <typename A>
 class singly_linked_list: public linkedlist<A>
 {
+    private:
     public:
         singly_linked_list();
         singly_linked_list(const singly_linked_list<A> &obj);
 
         void prepend(const A &value);
         void append(const A &value);
-        void insert(const A &value, const int64_t &index);
-        void insert_inorder(const A &value);
+        void insert(const int64_t &index, const A &value);
+        void insert_in_order(const A &value);
         void extend(const linkedlist<A> &obj);
 
         void remove(const A &value);
