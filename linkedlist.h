@@ -4,8 +4,6 @@
 #include <exception>
 #include <iostream>
 
-const size_t NOT_FOUND = -1;
-
 template <typename A>
 class linkedlist
 {
@@ -44,12 +42,7 @@ class linkedlist
         virtual void reverse() = 0;
         // virtual void sort() = 0;   
 
-        // virtual linkedlist<A> &copy(const linkedlist<A> &obj) = 0;
-
         virtual A &operator[](const int64_t &index) = 0;
-        // virtual linkedlist<A> &operator=(const linkedlist<A> &obj) = 0;
-        // virtual linkedlist<A> &operator+(const linkedlist<A> &obj) = 0;
-        // virtual linkedlist<A> &operator*(const size_t &times) = 0;
         virtual bool operator>(const linkedlist<A> &obj) const = 0;
         virtual bool operator<(const linkedlist<A> &obj) const = 0;
         virtual bool operator>=(const linkedlist<A> &obj) const = 0;
