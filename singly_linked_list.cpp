@@ -48,7 +48,7 @@ void singly_linked_list<A>::append(const A &value)
 }
 
 template <typename A>
-void singly_linked_list<A>::insert(const A &value, const int64_t &index)
+void singly_linked_list<A>::insert(const int64_t &index, const A &value)
 {
     if (this->isempty() || index == 0L || index <= -(int64_t)(this->size()))
     {
@@ -81,7 +81,7 @@ void singly_linked_list<A>::insert(const A &value, const int64_t &index)
 }
 
 template <typename A>
-void singly_linked_list<A>::insert_inorder(const A &value)
+void singly_linked_list<A>::insert_in_order(const A &value)
 {
     if (this->isempty() || this->head->value >= value)
     {
@@ -89,17 +89,20 @@ void singly_linked_list<A>::insert_inorder(const A &value)
         return;
     }
 
+    if (this->tail->value <= value)
+    {
+        this->append(value);
+        return;
+    }
+
     typename linkedlist<A>::node *new_node = new typename linkedlist<A>::node, *ptr = this->head;
     new_node->value = value;
-    while (ptr->next != nullptr)
+    while (ptr->next != this->tail)
     {
         if (ptr->next->value >= value)
             break;
         ptr = ptr->next;
     }
-
-    if (ptr->next == nullptr)
-        this->tail = new_node;
 
     new_node->next = ptr->next;
     ptr->next = new_node;
@@ -107,7 +110,6 @@ void singly_linked_list<A>::insert_inorder(const A &value)
     this->length++;
 }
 
-// TODO: g++ says `head` is protected within this context
 template <typename A>
 void singly_linked_list<A>::extend(const linkedlist<A> &obj)
 {
@@ -120,8 +122,6 @@ void singly_linked_list<A>::extend(const linkedlist<A> &obj)
         this->append(ptr->value);
         ptr = ptr->next;
     }
-
-    this->length = this->length + obj.size();
 }
 
 template <typename A>
@@ -192,7 +192,7 @@ A singly_linked_list<A>::pop(const int64_t &index)
         curr_index++;
     }
     
-    if (ptr->next->next == nullptr)
+    if (ptr->next == this->tail)
         this->tail = ptr;
 
     typename linkedlist<A>::node *temp = ptr->next;
@@ -264,7 +264,7 @@ void singly_linked_list<A>::reverse()
     this->head = prev;
 }
 
-// template <typeame A> void singly_linked_list<A>::sort() {}  
+// template <typename A> void singly_linked_list<A>::sort() {}
 
 template <typename A>
 singly_linked_list<A> &singly_linked_list<A>::copy(const linkedlist<A> &obj) 
@@ -434,7 +434,7 @@ void singly_linked_list<A>::show()
 
     if (this->isempty())
     {
-        std::cout << "]" << std::endl;
+        std::cout << "]";
         return;
     }
 
