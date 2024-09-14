@@ -34,7 +34,7 @@ Welcome to the `singly_linked_list` project! Follow these steps to get started w
 ### Prerequisites
 
 - C++11 or later
-- A compatible compiler (e.g., GCC, Clang, MSVC)
+- A compatible compiler (e.g., G++, Clang, MSVC)
 
 ### Installation
 
