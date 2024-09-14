@@ -1,6 +1,6 @@
 ---
 
-# Contributing to [Linked Lists]
+# Contributing to [Linked Lists](../../)
 
 Thank you for your interest in contributing to [Linked Lists]! We appreciate all contributions, whether they’re bug fixes, new features, documentation improvements, or anything else. Please follow the guidelines below to ensure a smooth contribution process.
 
