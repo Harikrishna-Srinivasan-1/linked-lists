@@ -58,13 +58,13 @@ Welcome to the `singly_linked_list` project! Follow these steps to get started w
 
 3. **Check Out the Specific Branch**
 
-   After navigating into the repository directory, you can check out the `Data-Structures` branch:
+   After navigating into the repository directory, you can check out the `List-Structures` branch:
 
    ```bash
-   git checkout Data-Structures
+   git checkout List-Structures
    ```
 
-   This command switches your working directory to the `Data-Structures` branch.
+   This command switches your working directory to the `List-Structures` branch.
 
 ### Example Workflow
 
@@ -77,19 +77,19 @@ git clone https://github.com/Harikrishna-Srinivasan/Linked-Lists.git
 # Navigate into the cloned repository
 cd Linked-Lists
 
-# Check out the 'Data-Structures' branch
-git checkout Data-Structures
+# Check out the 'List-Structures' branch
+git checkout List-Structures
 ```
 
 ### Additional Tips
 
-- **Verify Branch Existence**: If you're not sure whether the `Data-Structures` branch exists, you can list all branches using:
+- **Verify Branch Existence**: If you're not sure whether the `List-Structures` branch exists, you can list all branches using:
   
   ```bash
   git branch -a
   ```
 
-  This command shows all local and remote branches. Look for `remotes/origin/Data-Structures` in the output.
+  This command shows all local and remote branches. Look for `remotes/origin/List-Structures` in the output.
 
 - **Fetch All Branches**: If the branch isn’t showing up, make sure you’ve fetched all branches from the remote:
 
