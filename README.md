@@ -178,10 +178,12 @@ list.prepend(5);
 **Usage 1**
 
 ```cpp
-#include "singly_linked_list.h"
 #include <iostream>
 
-int main() {
+#include "singly_linked_list.h"
+
+int main()
+{
     singly_linked_list<int> list;
     list.append(1);
     list.append(2);
@@ -199,10 +201,12 @@ int main() {
 **Usage 2**
 
 ```cpp
-#include "singly_linked_list.h"
 #include <iostream>
 
-int main() {
+#include "singly_linked_list.h"
+
+int main()
+{
     singly_linked_list<int> list;
     list.extend({4, 5, 6});
     list.insert(1, {7, 8});
