@@ -297,6 +297,7 @@ void singly_linked_list<A>::insert_in_order(const int64_t &index, const A (&arra
 {
     this->insert_in_order(std::vector<A> (array, array + N));
 }
+
 /**
  * @brief Inserts multiple values into the singly linked list in order.
  *
