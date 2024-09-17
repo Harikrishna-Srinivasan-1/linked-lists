@@ -397,7 +397,7 @@ We welcome contributions to improve the library. To contribute:
 2. Create a new branch for your feature or bug fix.
 3. Submit a pull request with a clear description of your changes.
 
-Please refer to the [Contributing Guidelines](contributing.md) for detailed instructions.
+Please refer to the [Contributing Guidelines](CONTRIBUTING.md) for detailed instructions.
 
 ## License
 
