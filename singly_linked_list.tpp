@@ -60,6 +60,10 @@ singly_linked_list<A>::singly_linked_list(singly_linked_list<A> &&obj) noexcept
     this->length = obj.size();
     this->head = obj.gethead();
     this->tail = obj.gettail();
+  
+    obj.head = nullptr;
+    obj.tail = nullptr;
+    obj.length = 0;
 }
 
 /**
