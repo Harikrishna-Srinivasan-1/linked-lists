@@ -15,7 +15,7 @@
  */
 Exception::Exception(const std::string &msg, const char *file, int line, const char *func):
     std::runtime_error(msg), 
-    err_msg("\n" + msg + " in file: " + file + " at line: " + std::to_string(line) + " in function " + func) {}
+    err_msg("\n" + msg + " in file `" + file + "` at line: " + std::to_string(line) + " in function " + func) {}
 
 /**
  * @brief Returns the detailed error message.

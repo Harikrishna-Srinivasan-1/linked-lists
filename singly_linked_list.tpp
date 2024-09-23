@@ -5,16 +5,14 @@
  * @brief Default constructor for singly_linked_list.
  */
 template <typename A>
-singly_linked_list<A>::singly_linked_list()
-    : linkedlist<A>::linkedlist(), length(0) {}
+singly_linked_list<A>::singly_linked_list(): linkedlist<A>::linkedlist(), length(0) {}
 
 /**
  * @brief Copy constructor for singly_linked_list.
  * @param obj The singly_linked_list object to copy from.
  */
 template <typename A>
-singly_linked_list<A>::singly_linked_list(const linkedlist<A> &obj)
-    : linkedlist<A>::linkedlist(), length(0) 
+singly_linked_list<A>::singly_linked_list(const singly_linked_list<A> &obj): linkedlist<A>::linkedlist(), length(0) 
 {
     this->copy(obj);
 }
@@ -24,18 +22,19 @@ singly_linked_list<A>::singly_linked_list(const linkedlist<A> &obj)
  * @param obj Initializer list of values to initialize the list with.
  */
 template <typename A>
-singly_linked_list<A>::singly_linked_list(const std::initializer_list<A> &obj)
+singly_linked_list<A>::singly_linked_list(const std::initializer_list<A> &values): linkedlist<A>::linkedlist(), length(0)
 {
-    this->extend(obj);
+    this->extend(values);
 }
 
 /**
  * @brief Constructor from an array.
+ * @tparam N The size of the array.
  * @param array Array of values to initialize the list with.
  */
 template <typename A>
 template <size_t N>
-singly_linked_list<A>::singly_linked_list(const A (&array)[N])
+singly_linked_list<A>::singly_linked_list(const A (&array)[N]): linkedlist<A>::linkedlist(), length(0)
 {
     this->extend(array);
 }
@@ -45,7 +44,7 @@ singly_linked_list<A>::singly_linked_list(const A (&array)[N])
  * @param values Vector of values to initialize the list with.
  */
 template <typename A>
-singly_linked_list<A>::singly_linked_list(const std::vector<A> &values)
+singly_linked_list<A>::singly_linked_list(const std::vector<A> &values): linkedlist<A>::linkedlist(), length(0)
 {
     this->extend(values);
 }
@@ -57,9 +56,14 @@ singly_linked_list<A>::singly_linked_list(const std::vector<A> &values)
 template <typename A>
 singly_linked_list<A>::singly_linked_list(singly_linked_list<A> &&obj) noexcept
 {
+    this->clear();
     this->length = obj.size();
-    this->head = obj.gethead();
-    this->tail = obj.gettail();
+    this->head = linkedlist<A>::gethead(obj);
+    this->tail = linkedlist<A>::gettail(obj);
+
+    obj.head = nullptr;
+    obj.tail = nullptr;
+    obj.length = 0;
 }
 
 /**
@@ -74,6 +78,48 @@ singly_linked_list<A> &singly_linked_list<A>::operator=(const singly_linked_list
 }
 
 /**
+ * @brief Assignment operator for assigning from an initializer list.
+ * @param values The initializer list containing the values to assign.
+ * @return A reference to this singly_linked_list.
+ */
+template <typename A>
+singly_linked_list<A>& singly_linked_list<A>::operator=(const std::initializer_list<A>& values) 
+{
+    this->clear();
+    this->extend(values);
+    return *this;
+}
+
+/**
+ * @brief Assignment operator for assigning from a static array.
+ * @tparam N The size of the array.
+ * @param array The static array containing the values to assign.
+ * @return A reference to this singly_linked_list.
+ */
+template <typename A>
+template <size_t N>
+singly_linked_list<A>& singly_linked_list<A>::operator=(const A (&array)[N]) 
+{
+    this->clear();
+    this->extend(array);
+    return *this;
+}
+
+/**
+ * @brief Assignment operator for copying from another singly_linked_list.
+ * @param obj The singly_linked_list object to copy from.
+ * @return A reference to this singly_linked_list.
+ */
+template <typename A>
+singly_linked_list<A>& singly_linked_list<A>::operator=(const singly_linked_list<A>& obj) 
+{
+    this->clear();
+    this->extend(obj);
+    return *this;
+}
+
+
+/**
  * @brief Move assignment operator for transferring from another singly_linked_list.
  * @param obj The singly_linked_list object to move from.
  * @return A reference to this singly_linked_list.
@@ -81,10 +127,14 @@ singly_linked_list<A> &singly_linked_list<A>::operator=(const singly_linked_list
 template <typename A>
 singly_linked_list<A> &singly_linked_list<A>::operator=(singly_linked_list<A> &&obj) noexcept
 {
-    this->clear();
     this->length = obj.size();
-    this->head = obj.gethead();
-    this->tail = obj.gettail();
+    this->head = linkedlist<A>::gethead(obj);
+    this->tail = linkedlist<A>::gettail(obj);
+
+    obj.head = nullptr;
+    obj.tail = nullptr;
+    obj.length = 0;
+
     return *this;
 }
 
@@ -153,7 +203,7 @@ void singly_linked_list<A>::insert(const int64_t &index, const A &value)
 
     int64_t curr_index = 0L;
     if (index < 0L)
-        curr_index = (int64_t)(this->size()) + index;
+        curr_index = -(int64_t)(this->size());
 
     typename linkedlist<A>::node *new_node = new typename linkedlist<A>::node, *ptr = this->head;
     new_node->value = value;
@@ -177,10 +227,11 @@ void singly_linked_list<A>::insert(const int64_t &index, const A &value)
 template <typename A>
 void singly_linked_list<A>::insert(const int64_t &index, const linkedlist<A> &obj)
 {
-    typename linkedlist<A>::node *ptr = this->head;
+    int64_t curr_index = index;
+    typename linkedlist<A>::node *ptr = linkedlist<A>::gethead(obj);
     while (ptr != nullptr)
     {
-        this->insert(index, ptr->value);
+        this->insert(curr_index++, ptr->value);
         ptr = ptr->next;
     }
 }
@@ -195,11 +246,12 @@ void singly_linked_list<A>::insert(const int64_t &index, const std::initializer_
 {
     int64_t curr_index = index;
     for (const A &value: values)
-        this->insert(index, value);
+        this->insert(curr_index++, value);
 }
 
 /**
  * @brief Insert an array at a specific index.
+ * @tparam N The size of the array.
  * @param index The position at which to insert the array.
  * @param array The array of values to insert.
  */
@@ -236,21 +288,17 @@ void singly_linked_list<A>::insert_in_order(const A &value)
         return;
     }
 
-    if (this->tail->value <= value)
-    {
-        this->append(value);
-        return;
-    }
-
     typename linkedlist<A>::node *new_node = new typename linkedlist<A>::node, *ptr = this->head;
     new_node->value = value;
-    while (ptr->next != this->tail)
+    while (ptr->next != nullptr)
     {
         if (ptr->next->value >= value)
             break;
         ptr = ptr->next;
     }
 
+    if (ptr->next == nullptr)
+        this->tail = new_node;
     new_node->next = ptr->next;
     ptr->next = new_node;
     
@@ -263,9 +311,9 @@ void singly_linked_list<A>::insert_in_order(const A &value)
  * @param obj The linked list to insert.
  */
 template <typename A>
-void singly_linked_list<A>::insert_in_order(const int64_t &index, const linkedlist<A> &obj)
+void singly_linked_list<A>::insert_in_order(const linkedlist<A> &obj)
 {
-    typename linkedlist<A>::node *ptr = this->head;
+    typename linkedlist<A>::node *ptr = linkedlist<A>::gethead(obj);
     while (ptr != nullptr)
     {
         this->insert_in_order(ptr->value);
@@ -279,21 +327,21 @@ void singly_linked_list<A>::insert_in_order(const int64_t &index, const linkedli
  * @param values The initializer list of values to insert.
  */
 template <typename A>
-void singly_linked_list<A>::insert_in_order(const int64_t &index, const std::initializer_list<A> &values)
+void singly_linked_list<A>::insert_in_order(const std::initializer_list<A> &values)
 {
-    int64_t curr_index = index;
     for (const A &value: values)
         this->insert_in_order(value);
 }
 
 /**
  * @brief Insert an array into the list in sorted index.
+ * @tparam N The size of the array.
  * @param index The position at which to insert the array.
  * @param array The array of values to insert.
  */
 template <typename A>
 template <size_t N>
-void singly_linked_list<A>::insert_in_order(const int64_t &index, const A (&array)[N])
+void singly_linked_list<A>::insert_in_order(const A (&array)[N])
 {
     this->insert_in_order(std::vector<A> (array, array + N));
 }
@@ -307,7 +355,7 @@ void singly_linked_list<A>::insert_in_order(const int64_t &index, const A (&arra
  * @param values A vector containing the values to be inserted.
  */
 template <typename A>
-void singly_linked_list<A>::insert_in_order(const int64_t &index, const std::vector<A> &values)
+void singly_linked_list<A>::insert_in_order(const std::vector<A> &values)
 {
     for (typename std::vector<A>::const_iterator it = values.begin(); it != values.end(); it++)
         this->insert_in_order(*it);
@@ -344,17 +392,17 @@ void singly_linked_list<A>::extend(const linkedlist<A> &obj)
 template <typename A>
 void singly_linked_list<A>::extend(const std::initializer_list<A> &values)
 {
-    for (const A &value : values)
+    for (const A &value: values)
         this->append(value);
 }
 
 /**
- * @brief Extends the singly linked list with the contents of a C-style array.
+ * @brief Extends the singly linked list with the contents of an array.
  *
  * This method appends the values from the provided array to the current list.
  *
- * @param array A C-style array containing the values to be appended.
  * @tparam N The size of the array.
+ * @param array An array containing the values to be appended.
  */
 template <typename A>
 template <size_t N>
@@ -389,7 +437,7 @@ template <typename A>
 void singly_linked_list<A>::remove(const A &value)
 {
     if (this->isempty())
-        throw VALUE_ERROR("Removing from Empty List in line ");
+        throw VALUE_ERROR("Removing from Empty List");
 
     typename linkedlist<A>::node *ptr = this->head;
     if (ptr->value == value)
@@ -397,6 +445,7 @@ void singly_linked_list<A>::remove(const A &value)
         this->head = ptr->next;
         delete ptr;
 
+        this->head = this->tail = nullptr;
         this->length--;
         return;
     }
@@ -409,7 +458,7 @@ void singly_linked_list<A>::remove(const A &value)
     }
 
     if (ptr->next == nullptr)
-        throw VALUE_ERROR("Removing `x`, non-element in the List in line");
+        throw VALUE_ERROR("Removing `x`, non-element in the List");
 
     if (ptr->next == this->tail)
         this->tail = ptr;
@@ -418,6 +467,7 @@ void singly_linked_list<A>::remove(const A &value)
     ptr->next = temp->next;
     delete temp;
     
+    temp = nullptr;
     this->length--;
 }
 
@@ -434,10 +484,10 @@ template <typename A>
 A singly_linked_list<A>::pop(const int64_t &index)
 {
     if (this->isempty())
-        throw INDEX_ERROR("Pop from Empty List in line");
+        throw INDEX_ERROR("Pop from Empty List");
 
     if (index < -(int64_t)(this->size()) || index >= (int64_t)(this->size()))
-        throw INDEX_ERROR("Pop index out of range in line");
+        throw INDEX_ERROR("Pop index out of range");
 
     typename linkedlist<A>::node *ptr = this->head;
     if (index == 0L || index == -(int64_t)(this->size()))
@@ -445,6 +495,8 @@ A singly_linked_list<A>::pop(const int64_t &index)
         A value = ptr->value;
         this->head = ptr->next;
         delete ptr;
+
+        this->head = nullptr;
         if (this->isempty())
             this->tail = nullptr;
 
@@ -471,6 +523,7 @@ A singly_linked_list<A>::pop(const int64_t &index)
     A value = temp->value;
     delete temp;
     
+    temp = nullptr;
     this->length--;
     return value;
 }
@@ -519,8 +572,8 @@ int64_t singly_linked_list<A>::find(const A &value) const
     {
         if (ptr->value == value)
             return curr_index;
-        curr_index++;
         ptr = ptr->next;
+        curr_index++;
     }
 
     return curr_index;
@@ -683,12 +736,9 @@ typename linkedlist<A>::node *singly_linked_list<A>::merge(typename linkedlist<A
         left->next = singly_linked_list<A>::merge(left->next, right);
         return left;
     }
-    
-    else
-    {
-        right->next = singly_linked_list<A>::merge(left, right->next);
-        return right;
-    }
+
+    right->next = singly_linked_list<A>::merge(left, right->next);
+    return right;
 }
 
 /**
@@ -700,7 +750,7 @@ typename linkedlist<A>::node *singly_linked_list<A>::merge(typename linkedlist<A
  * @return A reference to this singly linked list.
  */
 template <typename A>
-singly_linked_list<A> &singly_linked_list<A>::copy(const linkedlist<A> &obj) 
+singly_linked_list<A> &singly_linked_list<A>::copy(const singly_linked_list<A> &obj) 
 {
     if (this == &obj)
         return *this;
@@ -729,23 +779,23 @@ template <typename A>
 A &singly_linked_list<A>::operator[](const int64_t &index)
 {
     if (this->isempty())
-        throw INDEX_ERROR("Indexing an Empty List in line");
+        throw INDEX_ERROR("Indexing an Empty List");
 
     if (index < -(int64_t)(this->size()) || index >= (int64_t)(this->size()))
-        throw INDEX_ERROR("List index out of range in line");
+        throw INDEX_ERROR("List index out of range");
 
     if (index == 0L || index == -(int64_t)(this->size()))
         return this->head->value;
 
     int64_t curr_index = 0L;
     if (index < 0L)
-        curr_index = (int64_t)(this->size()) + index;
+        curr_index = -(int64_t)(this->size());
 
     typename linkedlist<A>::node *ptr = this->head;
     while (curr_index != index)
     {
-        curr_index++;
         ptr = ptr->next;
+        curr_index++;
     }
 
     return ptr->value;
@@ -931,7 +981,7 @@ bool singly_linked_list<A>::operator!=(const linkedlist<A> &obj) const
  * This method prints the list to the standard output using the `<<` operator.
  */
 template <typename A>
-void singly_linked_list<A>::show()
+void singly_linked_list<A>::show() const
 {
     std::cout << *this;
 }
@@ -944,13 +994,13 @@ void singly_linked_list<A>::show()
 template <typename A>
 void singly_linked_list<A>::clear() 
 {
-    typename linkedlist<A>::node *temp = nullptr;
     while (!this->isempty())
     {
-        temp = this->head;
+        typename linkedlist<A>::node *temp = this->head;
         this->head = this->head->next;
-
         delete temp;
+
+        temp = nullptr;
     }
 
     this->tail = nullptr;

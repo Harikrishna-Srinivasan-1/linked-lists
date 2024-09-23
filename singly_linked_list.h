@@ -15,8 +15,8 @@ class singly_linked_list: public linkedlist<A>
     public:
         singly_linked_list();
 
-        singly_linked_list(const linkedlist<A> &obj);
-        singly_linked_list(const std::initializer_list<A> &obj);
+        singly_linked_list(const singly_linked_list<A> &obj);
+        singly_linked_list(const std::initializer_list<A> &values);
         
         template <size_t N>
         singly_linked_list(const A (&array)[N]);
@@ -24,6 +24,11 @@ class singly_linked_list: public linkedlist<A>
 
         singly_linked_list(singly_linked_list<A> &&obj) noexcept;
         
+        singly_linked_list<A> &operator=(const singly_linked_list<A> &obj);
+        singly_linked_list<A> &operator=(const std::initializer_list<A> &values);
+        
+        template <size_t N>
+        singly_linked_list<A> &operator=(const A (&array)[N]);
         singly_linked_list<A> &operator=(const singly_linked_list<A> &obj);
         singly_linked_list<A> &operator=(singly_linked_list<A> &&obj) noexcept;
 
@@ -38,12 +43,12 @@ class singly_linked_list: public linkedlist<A>
         void insert(const int64_t &index, const std::vector<A> &values) override;
 
         void insert_in_order(const A &value) override;
-        void insert_in_order(const int64_t &index, const linkedlist<A> &obj) override;
-        void insert_in_order(const int64_t &index, const std::initializer_list<A> &values) override;
+        void insert_in_order(const linkedlist<A> &obj) override;
+        void insert_in_order(const std::initializer_list<A> &values) override;
         
         template <size_t N>
-        void insert_in_order(const int64_t &index, const A (&array)[N]);
-        void insert_in_order(const int64_t &index, const std::vector<A> &values) override;
+        void insert_in_order(const A (&array)[N]);
+        void insert_in_order(const std::vector<A> &values) override;
 
         void extend(const linkedlist<A> &obj) override;
         void extend(const std::initializer_list<A> &values) override;
@@ -56,7 +61,7 @@ class singly_linked_list: public linkedlist<A>
         A pop(const int64_t &index) override;
         A pop() override;
 
-        size_t size() const;
+        size_t size() const override;
 
         int64_t find(const A &value) const override;
         A find_min() const override;
@@ -66,7 +71,7 @@ class singly_linked_list: public linkedlist<A>
         void reverse() override;
         void sort() override;
 
-        singly_linked_list<A> &copy(const linkedlist<A> &obj);
+        singly_linked_list<A> &copy(const singly_linked_list<A> &obj);
 
         A &operator[](const int64_t &index) override;
         singly_linked_list<A> operator+(const linkedlist<A> &obj);
@@ -79,7 +84,7 @@ class singly_linked_list: public linkedlist<A>
         bool operator==(const linkedlist<A> &obj) const override;
         bool operator!=(const linkedlist<A> &obj) const override;
 
-        void show();
+        void show() const override;
 
         void clear() override;
 
