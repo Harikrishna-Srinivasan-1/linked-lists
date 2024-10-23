@@ -1,6 +1,6 @@
 
 ---
-# Linked List Library
+# Linked List Library (Older Version - 0.9)
 
 Welcome to the **Linked List Library**! This repository provides a robust and flexible implementation of singly linked lists in C++ with additional features for exception handling. This library supports a wide range of operations and is designed to be easily integrated into your projects.
 

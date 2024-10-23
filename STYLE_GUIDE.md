@@ -34,7 +34,7 @@
   ```cpp
   // Good comment: Explains why the next line is needed
   // Initialize the list with default values to avoid uninitialized variables
-  linkedlist<int> list;
+  singly_linked_list<int> list;
   ```
 
 ### 2. **Documentation**
@@ -49,7 +49,7 @@
    * Provides methods to manipulate linked list elements and perform common operations.
    */
   template <typename A>
-  class singly_linked_list : public linkedlist<A>
+  class singly_linked_list: public linkedlist<A>
   {
       // ...
   };

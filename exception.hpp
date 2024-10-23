@@ -2,9 +2,9 @@
 #define EXCEPTION_H
 
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 
-class Exception: public std::runtime_error 
+class Exception: public std::runtime_error
 {
     private:
         std::string err_msg;

@@ -1,4 +1,4 @@
-#include "exception.h"
+#include "exception.hpp"
 
 
 /**
@@ -15,7 +15,7 @@
  */
 Exception::Exception(const std::string &msg, const char *file, int line, const char *func):
     std::runtime_error(msg), 
-    err_msg("\n" + msg + " in file: " + file + " at line: " + std::to_string(line) + " in function " + func) {}
+    err_msg("\n" + msg + " in file `" + file + "` at line: " + std::to_string(line) + " in function " + func) {}
 
 /**
  * @brief Returns the detailed error message.
@@ -38,8 +38,7 @@ const char* Exception::what() const noexcept
  * @param line The line number where the exception occurred.
  * @param func The name of the function where the exception occurred.
  */
-IndexError::IndexError(const std::string &msg, const char *file, int line, const char *func):
-    Exception("\nIndexError: " + msg, file, line, func) {}
+IndexError::IndexError(const std::string &msg, const char *file, int line, const char *func): Exception("\nIndexError: " + msg, file, line, func) {}
 
 /**
  * @brief Constructs a ValueError with a detailed error message.
