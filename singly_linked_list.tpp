@@ -1,4 +1,4 @@
-#include "singly_linked_list.hpp"
+#include "./singly_linked_list.hpp"
 
 
 /**
@@ -26,7 +26,7 @@ singly_linked_list<A>::singly_linked_list(singly_linked_list<A> &&obj): linkedli
         this->append(ptr->value);
         ptr = ptr->next;
     }
-    
+
     *this->length = *obj.length;
 }
 
@@ -63,7 +63,6 @@ singly_linked_list<A>::singly_linked_list(const std::initializer_list<A> &values
 
 /**
  * @brief Constructor from an array.
- * @tparam N The size of the array.
  * @param array Array of values to initialize the list with.
  */
 template <typename A>
@@ -91,20 +90,15 @@ singly_linked_list<A>::singly_linked_list(const std::vector<A> &values): linkedl
  */
 // Causes RVO - Return Value Optimization causing - seg faults
 // template <typename A>
-// singly_linked_list<A>::singly_linked_list(singly_linked_list<A> &&obj) noexcept
+// singly_linked_list<A>::singly_linked_list(singly_linked_list<A> &&obj) noexcept: linkedlist<A>::linkedlist()
 // {
-//     delete this->head;
-//     delete this->tail;
-//     delete this->length;
-//     delete this->ref_count;
-    
 //     this->head = linkedlist<A>::gethead(obj);
 //     this->tail = linkedlist<A>::gettail(obj);
 //     this->length = obj.length;
 //     this->ref_count = obj.ref_count;
 
-//     obj.head = new typename linkedlist<A>::node*(nullptr);
-//     obj.tail = new typename linkedlist<A>::node*(nullptr);
+//   *  obj.head = nullptr;
+//   *  obj.tail = nullptr;
 //     obj.length = new size_t(0);
 //     obj.ref_count = new size_t(1);
 // }
@@ -121,7 +115,7 @@ singly_linked_list<A>::singly_linked_list(const std::vector<A> &values): linkedl
  * @return A reference to this `singly_linked_list`.
  */
 template <typename A>
-singly_linked_list<A>& singly_linked_list<A>::operator=(const singly_linked_list<A> &obj)
+singly_linked_list<A> &singly_linked_list<A>::operator=(const singly_linked_list<A> &obj)
 {
     if (this == &obj)
         return *this;
@@ -141,7 +135,6 @@ singly_linked_list<A>& singly_linked_list<A>::operator=(const singly_linked_list
     this->ref_count = obj.ref_count;
 
     (*this->ref_count)++;
-
     return *this;
 }
 
@@ -188,6 +181,7 @@ singly_linked_list<A>& singly_linked_list<A>::operator=(const A (&array)[N])
         delete this->ref_count;
     }
 
+    *this->head = *this->tail = nullptr;
     this->length = new size_t(0);
     this->ref_count = new size_t(1);
 
@@ -212,6 +206,7 @@ singly_linked_list<A>& singly_linked_list<A>::operator=(const std::vector<A> &va
         delete this->ref_count;
     }
 
+    *this->head = *this->tail = nullptr;
     this->length = new size_t(0);
     this->ref_count = new size_t(1);
 
@@ -243,7 +238,6 @@ singly_linked_list<A> singly_linked_list<A>::operator=(singly_linked_list<A> &&o
     }
 
     *this->head = *this->tail = nullptr;
-
     typename linkedlist<A>::node *ptr = *linkedlist<A>::gethead(obj);
     while (ptr != nullptr)
     {
@@ -266,9 +260,6 @@ singly_linked_list<A> singly_linked_list<A>::operator=(singly_linked_list<A> &&o
 // template <typename A>
 // singly_linked_list<A> &singly_linked_list<A>::operator=(singly_linked_list<A> &&obj) noexcept
 // {
-//     delete this->head;
-//     delete this->tail;
-
 //     (*this->ref_count)--;
 //     if (*this->ref_count == 0)
 //     {
@@ -307,6 +298,7 @@ void singly_linked_list<A>::prepend(const A &value)
         (*this->ref_count)++;
         *this->tail = new_node;
     }
+
     *this->head = new_node;
     
     (*this->length)++;
@@ -1195,6 +1187,22 @@ singly_linked_list<A>::operator std::vector<A>()
 }
 
 /**
+ * @brief Converts the singly linked list to a string representation.
+ *
+ * This method returns a string representation of the list.
+ *
+ * @return A string representing the list's contents.
+ */
+template <typename A>
+std::string singly_linked_list<A>::to_string()
+{
+    std::ostringstream ss;
+    ss << *this;
+
+    return ss.str();
+}
+
+/**
  * @brief Displays the singly linked list.
  *
  * This method prints the list to the standard output using the `<<` operator.
@@ -1285,7 +1293,6 @@ singly_linked_list<A>::~singly_linked_list()
     {
         delete this->head;
         delete this->tail;
-
         delete this->length;
         delete this->ref_count;
     }

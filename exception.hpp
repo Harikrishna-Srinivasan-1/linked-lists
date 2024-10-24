@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 class Exception: public std::runtime_error
 {
@@ -40,6 +41,6 @@ class TypeError: public Exception
 #define VALUE_ERROR(msg) ValueError(msg, __FILE__, __LINE__, __func__)
 #define TYPE_ERROR(msg) TypeError(msg, __FILE__, __LINE__, __func__)
 
-#include "exception.tpp"
+#include "./exception.tpp"
 
 #endif

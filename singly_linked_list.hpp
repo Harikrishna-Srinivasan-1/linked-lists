@@ -94,6 +94,7 @@ class singly_linked_list: public linkedlist<A>
         operator A *() override;
         operator std::vector<A>() override;
 
+        std::string to_string() override;
         void show() override;
 
         void clear() override;
@@ -110,7 +111,7 @@ singly_linked_list<A> operator*(const size_t &times, singly_linked_list<A> &obj)
 template <typename A>
 std::ostream &operator<<(std::ostream &out, singly_linked_list<A> &obj);
 
-#include "singly_linked_list.tpp"
+#include "./singly_linked_list.tpp"
 
 #endif
 

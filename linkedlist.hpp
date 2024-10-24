@@ -20,7 +20,7 @@ class linkedlist
         } node;
 
         node **head, **tail;
-        
+
         constexpr static node **gethead(const linkedlist<A> &obj);
         constexpr static node *getmiddle(node *head);
         constexpr static node **gettail(const linkedlist<A> &obj);
@@ -105,6 +105,7 @@ class linkedlist
         virtual operator A *() = 0;
         virtual operator std::vector<A>() = 0;
 
+        virtual std::string to_string() = 0;
         virtual void show() = 0;
 
         virtual void clear() = 0;
@@ -135,6 +136,6 @@ A max(const linkedlist<A> &obj);
 template <typename A>
 size_t len(const linkedlist<A> &obj);
 
-#include "linkedlist.tpp"
+#include "./linkedlist.tpp"
 
 #endif
